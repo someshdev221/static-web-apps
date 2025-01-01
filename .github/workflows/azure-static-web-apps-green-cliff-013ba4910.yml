@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
-      id-token: write
+      id-token: write  # Required permission for OIDC
       contents: read
     steps:
       # Checkout the repository code including submodules
@@ -24,11 +24,11 @@ jobs:
           submodules: true
           lfs: false
 
-      # Install the necessary dependencies for GitHub Actions
+      # Install necessary dependencies
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
 
-      # Fetch the ID token (no need to require @actions/core again)
+      # Get ID Token using GitHub API
       - name: Get Id Token
         id: idtoken
         uses: actions/github-script@v6
@@ -45,21 +45,19 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GRAY_GLACIER_018D51210 }}  # Make sure to set this in Secrets
           action: "upload"
-          # Repository/Build Configurations - These values can be configured to match your app requirements
+          # Repository/Build Configurations
           app_location: "/"  # App source code path
           api_location: "api"  # API source code path - optional
           output_location: "/"  # Built app content directory - optional
           github_id_token: ${{ steps.idtoken.outputs.result }}
-          # End of Repository/Build Configurations
-
+          
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
     steps:
-      # This job will close the PR deployment
       - name: Close Pull Request
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
-          action: "close"  # Close the PR deployment
+          action: "close"
