@@ -1,6 +1,17 @@
 {
+  "name": "my-app",
+  "version": "1.0.0",
   "scripts": {
     "build": "npm run build:azure",
-    "build:azure": "react-scripts build"  // Replace this with the appropriate build command for your app
+    "build:azure": "react-scripts build",
+    "start": "react-scripts start"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-scripts": "^4.0.3"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "16.x"
   }
 }
