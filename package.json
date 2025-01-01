@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build": "npm run build:azure",
+    "build:azure": "react-scripts build"  // Replace this with the appropriate build command for your app
+  }
+}
